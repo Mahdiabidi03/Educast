@@ -1,0 +1,117 @@
+/* ============================================================
+   PdfViewer.css
+   Styles for the reusable in-app PDF viewer component.
+   ============================================================ */
+
+/* Outer wrapper — fills available space and sizes the viewer */
+.pdf-viewer-wrapper {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border, #E5E7EB);
+  border-top: none;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* The inner Viewer div rendered by @react-pdf-viewer/core */
+.pdf-viewer-wrapper .rpv-core__viewer {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+/* Sidebar (thumbnails / bookmarks) */
+.pdf-viewer-wrapper .rpv-default-layout__sidebar {
+  background: var(--color-surface, #FFFFFF);
+  border-right: 1px solid var(--color-border, #E5E7EB);
+}
+
+/* Page canvas area */
+.pdf-viewer-wrapper .rpv-core__page-layer {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Toolbar theming — replace dark-blue default ───────────────── */
+.pdf-viewer-wrapper .rpv-toolbar {
+  background: var(--color-surface-inset, #F3F4F6) !important;
+  border-bottom: 1px solid var(--color-border, #E5E7EB) !important;
+  color: var(--color-text, #111111) !important;
+}
+
+.pdf-viewer-wrapper .rpv-toolbar__item button,
+.pdf-viewer-wrapper .rpv-toolbar__item svg {
+  color: var(--color-text, #111111) !important;
+  fill: var(--color-text, #111111) !important;
+}
+
+.pdf-viewer-wrapper .rpv-toolbar__item button:hover {
+  background: rgba(var(--color-accent-rgb, 227, 6, 19), 0.08) !important;
+  color: var(--color-accent, #E30613) !important;
+  border-radius: 6px;
+}
+
+.pdf-viewer-wrapper .rpv-toolbar__item button:hover svg {
+  fill: var(--color-accent, #E30613) !important;
+  color: var(--color-accent, #E30613) !important;
+}
+
+.pdf-viewer-wrapper .rpv-toolbar__item button[aria-checked='true'] {
+  background: rgba(var(--color-accent-rgb, 227, 6, 19), 0.12) !important;
+  color: var(--color-accent, #E30613) !important;
+}
+
+.pdf-viewer-wrapper .rpv-current-page-input input {
+  background: var(--color-surface, #FFFFFF) !important;
+  border: 1px solid var(--color-border, #E5E7EB) !important;
+  color: var(--color-text, #111111) !important;
+  border-radius: 6px;
+}
+
+.pdf-viewer-wrapper .rpv-default-layout__sidebar-tabs button {
+  color: var(--color-text-muted, #6B7280) !important;
+}
+.pdf-viewer-wrapper .rpv-default-layout__sidebar-tabs button[aria-selected='true'] {
+  color: var(--color-accent, #E30613) !important;
+  border-bottom-color: var(--color-accent, #E30613) !important;
+}
+
+.pdf-viewer-wrapper .rpv-core__menu {
+  background: var(--color-surface, #FFFFFF) !important;
+  border: 1px solid var(--color-border, #E5E7EB) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 8px !important;
+}
+.pdf-viewer-wrapper .rpv-core__menu-item {
+  color: var(--color-text, #111111) !important;
+}
+.pdf-viewer-wrapper .rpv-core__menu-item:hover {
+  background: rgba(var(--color-accent-rgb, 227, 6, 19), 0.08) !important;
+  color: var(--color-accent, #E30613) !important;
+}
+
+/* ============================================================
+   Empty / no-document state
+   ============================================================ */
+.pdf-viewer-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  border-radius: 12px;
+  border: 2px dashed var(--color-border, #E5E7EB);
+  color: var(--color-text-muted, #888);
+  font-size: 0.95rem;
+}
+
+.pdf-viewer-empty-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+}

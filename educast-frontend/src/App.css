@@ -1,0 +1,236 @@
+.App-shell {
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow: hidden;
+}
+
+.App-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.4rem 1.1rem;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.App-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.35rem 0 0.7rem;
+}
+
+.App-brandMark {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.App-brandName h2 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.App-brandName p {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.App-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-inset);
+}
+
+.App-dock input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  outline: none;
+}
+
+.App-dockButton {
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+}
+
+.App-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.App-navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.App-navLabel {
+  margin-left: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.App-navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.8rem 0.8rem;
+  border-radius: 12px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-align: left;
+}
+
+.App-navItem.active {
+  background: var(--color-surface-inset);
+  color: var(--color-accent);
+}
+
+.App-navItem strong,
+.App-navItem small {
+  display: block;
+}
+
+.App-navItem small {
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+}
+
+.App-navIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: inherit;
+}
+
+.App-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.App-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 1.6rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.App-kicker {
+  margin: 0 0 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.App-topbar h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--color-text);
+}
+
+.App-topbarActions {
+  display: flex;
+  align-items: center;
+}
+
+.App-content {
+  padding: 1.4rem 1.6rem 2rem;
+}
+
+.App-sidebarFooter {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.App-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.App-userAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-inset);
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.App-user strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.App-user p {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.84rem;
+}
+
+.App-themeRow {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.App-iconButton {
+  min-width: 42px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+}
+
+@media (max-width: 920px) {
+  .App-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .App-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+

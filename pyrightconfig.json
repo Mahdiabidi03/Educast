@@ -1,0 +1,12 @@
+{
+    "venvPath": ".",
+    "venv": "venv",
+    "extraPaths": [
+        "educast-ai-service"
+    ],
+    "executionEnvironments": [
+        {
+            "root": "educast-ai-service"
+        }
+    ]
+}

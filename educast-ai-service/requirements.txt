@@ -1,0 +1,45 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+
+# Structured document parsing (primary extraction engine)
+docling>=2.0.0
+
+# PDF extraction — kept as fallback if Docling fails
+PyMuPDF>=1.24.0
+
+# PPTX extraction — kept as fallback if Docling fails
+python-pptx>=0.6.23
+
+# DOCX extraction — kept as fallback if Docling fails
+python-docx>=1.1.0
+
+# Chunking
+langchain>=0.2.0
+langchain-community>=0.2.0
+langchain-text-splitters>=0.2.0
+
+# Embeddings (local, free, dimension 384)
+sentence-transformers>=3.0.0
+
+# Vector DB
+pinecone>=5.0.0
+
+# Config
+python-dotenv>=1.0.1
+mlflow>=2.8.0
+
+# LLM APIs — fallback chain
+ollama>=0.3.0
+mistralai>=1.0.0
+openai>=1.35.0          # also used as Groq client (OpenAI-compatible)
+google-generativeai>=0.7.0
+huggingface_hub>=0.23.0
+cohere>=5.0.0
+edge-tts>=6.1.12
+pydub>=0.25.1
+
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
+torchaudio==2.5.1+cu121

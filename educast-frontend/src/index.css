@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-bg: #F7F7F8;
+  --color-surface: #FFFFFF;
+  --color-surface-inset: #F3F4F6;
+  --color-text: #111111;
+  --color-text-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --color-accent: #E30613;
+  --color-accent-hover: #B8050F;
+  --color-success-bg: #DCFCE7;
+  --color-success-text: #16A34A;
+  --color-surface-rgb: 255, 255, 255;
+  --color-accent-rgb: 227, 6, 19;
+  --shadow: 0 18px 40px rgba(17, 24, 39, 0.08);
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #0B0B0D;
+  --color-surface: #161616;
+  --color-surface-inset: #1F1F1F;
+  --color-text: #F5F5F5;
+  --color-text-muted: #9CA3AF;
+  --color-border: #2A2A2A;
+  --color-accent: #E30613;
+  --color-accent-hover: #FF2233;
+  --color-success-bg: #14291C;
+  --color-success-text: #4ADE80;
+  --color-surface-rgb: 22, 22, 22;
+  --color-accent-rgb: 227, 6, 19;
+  --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100%;
+  width: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.btn-primary,
+.btn-secondary,
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn-primary {
+  border: 0;
+  padding: 0.72rem 1.15rem;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px rgba(227, 6, 19, 0.16);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  border: 1px solid var(--color-border);
+  padding: 0.72rem 1.15rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.status-badge {
+  padding: 0.3rem 0.7rem;
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+  font-size: 0.8rem;
+  border-radius: 999px;
+}
+
+.status-badge::before {
+  content: '✓';
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+/* ── Markdown Rendering (Résumé) ────────────────────────────────────────── */
+.markdown-body {
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.markdown-body h1 { font-size: 1.8rem; }
+.markdown-body h2 { font-size: 1.5rem; }
+.markdown-body h3 { font-size: 1.25rem; }
+
+.markdown-body p {
+  margin-bottom: 1.2rem;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 1.2rem;
+  padding-left: 2rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.08);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+/* ── Markdown tables ───────────────────────────────────────────── */
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.markdown-body thead {
+  background: var(--color-accent);
+}
+
+.markdown-body thead th {
+  color: #000000 !important;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  white-space: nowrap;
+  border: none;
+}
+
+.markdown-body thead th * {
+  color: #000000 !important;
+  background: transparent !important;
+}
+
+.markdown-body tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+
+.markdown-body tbody tr:nth-child(even) {
+  background: var(--color-surface-inset);
+}
+
+.markdown-body tbody tr:hover {
+  background: rgba(var(--color-accent-rgb), 0.05);
+}
+
+.markdown-body tbody td {
+  padding: 0.65rem 1rem;
+  vertical-align: top;
+  color: var(--color-text);
+  border: none;
+}
+
+:root[data-theme='dark'] .markdown-body thead {
+  background: var(--color-accent);
+}
+
+:root[data-theme='dark'] .markdown-body thead th,
+:root[data-theme='dark'] .markdown-body thead th * {
+  color: #000000 !important;
+  background: transparent !important;
+}
+
+:root[data-theme='dark'] .markdown-body tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:root[data-theme='dark'] .markdown-body tbody tr:hover {
+  background: rgba(var(--color-accent-rgb), 0.1);
+}
+
+/* ── KaTeX / Math rendering ─────────────────────────────────────── */
+.markdown-body .math,
+.markdown-body .math-inline,
+.markdown-body .math-display {
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+/* Block-level ($$...$$) — centred with breathing room */
+.markdown-body .math-display {
+  display: block;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: var(--color-surface-inset);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 8px 8px 0;
+}
+
+/* Inline ($...$) — keep within text flow */
+.markdown-body .math-inline {
+  display: inline;
+  padding: 0 2px;
+}
+
+/* Dark-mode: ensure KaTeX SVG paths use current color */
+:root[data-theme='dark'] .markdown-body .katex {
+  color: var(--color-text);
+}
+
+/* Ensure KaTeX unparsed/error text never renders in red */
+.katex-error {
+  color: inherit !important;
+  background: transparent !important;
+  border: none !important;
+}

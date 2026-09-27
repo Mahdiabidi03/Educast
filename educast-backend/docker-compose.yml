@@ -1,0 +1,5 @@
+# services à ajouter plus tard : postgres, fastapi service, nestjs backend, react frontend
+# Ce fichier sera complété à l'Étape 5 (Docker Compose full-stack)
+version: '3.9'
+
+services: {}

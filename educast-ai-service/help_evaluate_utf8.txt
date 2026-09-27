@@ -1,0 +1,382 @@
+Help on function evaluate in module mlflow.genai.evaluation.base:
+
+evaluate(data: 'EvaluationDatasetTypes', scorers: list[mlflow.genai.scorers.base.Scorer], predict_fn: Optional[Callable[..., Any]] = None, model_id: str | None = None) -> 'EvaluationResult'
+    Evaluate the performance of a generative AI model/application using specified
+    data and scorers.
+
+    This function allows you to evaluate a model's performance on a given dataset
+    using various scoring criteria. It supports both built-in scorers provided by
+    MLflow and custom scorers. The evaluation results include metrics and detailed
+    per-row assessments.
+
+    There are three different ways to use this function:
+
+    **1. Use Traces to evaluate the model/application.**
+
+    The `data` parameter takes a DataFrame with `trace` column, which contains a
+    single trace object corresponding to the prediction for the row. This dataframe
+    is easily obtained from the existing traces stored in MLflow, by using the
+    :py:func:`mlflow.search_traces` function.
+
+    .. code-block:: python
+
+        import mlflow
+        from mlflow.genai.scorers import Correctness, Safety
+        import pandas as pd
+
+        # model_id is a string starting with "m-", e.g. "m-074689226d3b40bfbbdf4c3ff35832cd"
+        trace_df = mlflow.search_traces(model_id="<my-model-id>")
+
+        mlflow.genai.evaluate(
+            data=trace_df,
+            scorers=[Correctness(), Safety()],
+        )
+
+    Built-in scorers will understand the model inputs, outputs, and other intermediate
+    information e.g. retrieved context, from the trace object. You can also access to
+    the trace object from the custom scorer function by using the `trace` parameter.
+
+    .. code-block:: python
+
+        from mlflow.genai.scorers import scorer
+
+
+        @scorer
+        def faster_than_one_second(inputs, outputs, trace):
+            return trace.info.execution_duration < 1000
+
+    **2. Use DataFrame or dictionary with "inputs", "outputs", "expectations" columns.**
+
+    Alternatively, you can pass inputs, outputs, and expectations (ground truth) as
+    a column in the dataframe (or equivalent list of dictionaries).
+
+    .. code-block:: python
+
+        import mlflow
+        from mlflow.genai.scorers import Correctness
+        import pandas as pd
+
+        data = pd.DataFrame([
+            {
+                "inputs": {"question": "What is MLflow?"},
+                "outputs": "MLflow is an ML platform",
+                "expectations": "MLflow is an ML platform",
+            },
+            {
+                "inputs": {"question": "What is Spark?"},
+                "outputs": "I don't know",
+                "expectations": "Spark is a data engine",
+            },
+        ])
+
+        mlflow.genai.evaluate(
+            data=data,
+            scorers=[Correctness()],
+        )
+
+    **3. Pass `predict_fn` and input samples (and optionally expectations).**
+
+    If you want to generate the outputs and traces on-the-fly from your input samples,
+    you can pass a callable to the `predict_fn` parameter. In this case, MLflow will
+    pass the inputs to the `predict_fn` as keyword arguments. Therefore, the "inputs"
+    column must be a dictionary with the parameter names as keys.
+
+    .. code-block:: python
+
+        import mlflow
+        from mlflow.genai.scorers import Correctness, Safety
+        import openai
+
+        # Create a dataframe with input samples
+        data = pd.DataFrame([
+            {"inputs": {"question": "What is MLflow?"}},
+            {"inputs": {"question": "What is Spark?"}},
+        ])
+
+
+        # Define a predict function to evaluate. The "inputs" column will be
+        # passed to the prediction function as keyword arguments.
+        def predict_fn(question: str) -> str:
+            response = openai.OpenAI().chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": question}],
+            )
+            return response.choices[0].message.content
+
+
+        mlflow.genai.evaluate(
+            data=data,
+            predict_fn=predict_fn,
+            scorers=[Correctness(), Safety()],
+        )
+
+    **4. Pass a ConversationSimulator for multi-turn evaluation.**
+
+    For multi-turn evaluation, you can pass a ConversationSimulator to the `data`
+    parameter along with a `predict_fn`. The simulator will generate conversations
+    by simulating user interactions with your agent, and the resulting traces will
+    be evaluated.
+
+    The `predict_fn` must follow the OpenAI Responses API format
+    (https://platform.openai.com/docs/api-reference/responses):
+
+    - It must accept an ``input`` parameter containing the conversation history
+      as a list of message dictionaries (e.g., ``[{"role": "user", "content": "..."}]``)
+    - It may accept additional keyword arguments from the test case's ``context`` field
+    - It should return a response (the assistant's message content will be extracted)
+
+    .. code-block:: python
+
+        import mlflow
+        from mlflow.genai.simulators import ConversationSimulator
+        from mlflow.genai.scorers import Safety
+
+        simulator = ConversationSimulator(
+            test_cases=[
+                {
+                    "goal": "Learn about MLflow tracking",
+                    "persona": "A beginner",
+                    "context": {"user_id": "123"},  # passed as kwargs to predict_fn
+                },
+            ],
+            max_turns=3,
+        )
+
+
+        def predict_fn(input: list[dict], **kwargs) -> dict:
+            # input is the conversation history: [{"role": "user", "content": "..."}, ...]
+            # kwargs contains context from test case (e.g., user_id="123")
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=input,
+            )
+            return response
+
+
+        mlflow.genai.evaluate(
+            data=simulator,
+            predict_fn=predict_fn,
+            scorers=[Safety()],
+        )
+
+    Args:
+        data: Dataset for the evaluation. Must be one of the following formats:
+
+            * An EvaluationDataset entity
+            * Pandas DataFrame
+            * Spark DataFrame
+            * List of dictionaries
+            * List of `Trace` objects
+            * A ConversationSimulator (requires `predict_fn`)
+
+            The dataset must include either of the following columns:
+
+            1. `trace` column that contains a single trace object corresponding
+                to the prediction for the row.
+
+                If this column is present, MLflow extracts inputs, outputs, assessments,
+                and other intermediate information e.g. retrieved context, from the trace
+                object and uses them for scoring. When this column is present, the
+                `predict_fn` parameter must not be provided.
+
+            2. `inputs`, `outputs`, `expectations` columns.
+
+                Alternatively, you can pass inputs, outputs, and expectations(ground
+                truth) as a column in the dataframe (or equivalent list of dictionaries).
+
+                - inputs (required): Column containing inputs for evaluation. The value
+                  must be a dictionary. When `predict_fn` is provided, MLflow will pass
+                  the inputs to the `predict_fn` as keyword arguments. For example,
+
+                  * predict_fn: `def predict_fn(question: str, context: str) -> str`
+                  * inputs: `{"question": "What is MLflow?", "context": "MLflow is an ML platform"}`
+                  * `predict_fn` will receive "What is MLflow?" as the first argument
+                    (`question`) and "MLflow is an ML platform" as the second argument (`context`)
+
+                - outputs (optional): Column containing model or app outputs.
+                  If this column is present, `predict_fn` must not be provided.
+
+                - expectations (optional): Column containing a dictionary of ground truths.
+
+            For list of dictionaries, each dict should follow the above schema.
+
+            Optional columns:
+                - tags (optional): Column containing a dictionary of tags. The tags will be logged
+                                   to the respective traces.
+
+        scorers: A list of Scorer objects that produces evaluation scores from
+            inputs, outputs, and other additional contexts. MLflow provides pre-defined
+            scorers, but you can also define custom ones.
+
+        predict_fn: The target function to be evaluated. The specified function will be
+            executed for each row in the input dataset, and outputs will be used for
+            scoring.
+
+            The function must emit a single trace per call. If it doesn't, decorate
+            the function with @mlflow.trace decorator to ensure a trace to be emitted.
+
+            Both synchronous and asynchronous (async def) functions are supported. Async
+            functions are automatically detected and wrapped to run synchronously with a
+            configurable timeout (default: 300 seconds). Set the timeout using the
+            MLFLOW_GENAI_EVAL_ASYNC_TIMEOUT environment variable.
+
+        model_id: Optional model identifier (e.g. "m-074689226d3b40bfbbdf4c3ff35832cd")
+            to associate with the evaluation results. Can be also set globally via the
+            :py:func:`mlflow.set_active_model` function.
+
+    Returns:
+        An :py:class:`mlflow.genai.evaluation.entities.EvaluationResult` object.
+
+    Note:
+        Certain advanced features of this function are only supported on Databricks.
+        The tracking URI must be set to Databricks to use these features.
+
+    .. warning::
+
+        This function is not thread-safe. Please do not use it in multi-threaded
+        environments.
+
+Help on function make_judge in module mlflow.genai.judges.make_judge:
+
+make_judge(name: str, instructions: str, model: str | None = None, description: str | None = None, feedback_value_type: Any = None, inference_params: dict[str, typing.Any] | None = None, base_url: str | None = None, extra_headers: dict[str, str] | None = None, include_timing_in_conversation: bool = False) -> mlflow.genai.judges.base.Judge
+    Create a custom MLflow judge instance.
+
+    Args:
+        name: The name of the judge
+        instructions: Natural language instructions for evaluation. Must contain at least one
+                      template variable: {{ inputs }}, {{ outputs }}, {{ expectations }},
+                      {{ conversation }}, or {{ trace }} to reference evaluation data. Custom
+                      variables are not supported.
+                      Note: {{ conversation }} can only coexist with {{ expectations }}.
+                      It cannot be used together with {{ inputs }}, {{ outputs }}, or {{ trace }}.
+        model: The model identifier to use for evaluation (e.g., "openai:/gpt-4")
+        description: A description of what the judge evaluates
+        feedback_value_type: Type specification for the 'value' field in the Feedback
+                        object. The judge will use structured outputs to enforce this type.
+                        If unspecified, the feedback value type is determined by the judge.
+                        It is recommended to explicitly specify the type.
+
+                        Supported types (matching FeedbackValueType):
+
+                        - int: Integer ratings (e.g., 1-5 scale)
+                        - float: Floating point scores (e.g., 0.0-1.0)
+                        - str: Text responses
+                        - bool: Yes/no evaluations
+                        - T | None / Optional[T]: Nullable primitive (e.g., ``float | None``
+                          for a score that may be absent)
+                        - Literal[values]: Enum-like choices (e.g., Literal["good", "bad"])
+                        - dict[str, int | float | str | bool]: Dictionary with string keys and
+                          int, float, str, or bool values.
+                        - list[int | float | str | bool]: List of int, float, str, or bool values
+
+                        Note: Pydantic BaseModel types are not supported.
+        inference_params: Optional dictionary of inference parameters to pass to the model
+                        (e.g., temperature, top_p, max_tokens). These parameters allow
+                        fine-grained control over the model's behavior during evaluation.
+                        For example, setting a lower temperature can produce more
+                        deterministic and reproducible evaluation results.
+        base_url: Optional base URL to route requests through. When specified, all
+                        requests to the LLM provider will be routed through this URL.
+                        This is useful when LLM access must go through an internal gateway,
+                        security proxy, or custom API endpoint.
+                        Not supported for Databricks-backed models (including Databricks
+                        endpoints, the default managed judge model, or "databricks:/..."
+                        model URIs).
+        extra_headers: Optional dictionary of additional HTTP headers to include in
+                        requests to the LLM provider. Can be used for authentication,
+                        tracking, or other custom requirements.
+                        Not supported for Databricks-backed models (including Databricks
+                        endpoints, the default managed judge model, or "databricks:/..."
+                        model URIs).
+        include_timing_in_conversation: If True, append timing information (duration and
+                        slowest spans) to assistant responses when evaluating conversations.
+                        Useful for latency-aware evaluation. Default is False for backward
+                        compatibility. Only applies when using {{ conversation }} template variable.
+
+    Returns:
+        An InstructionsJudge instance configured with the provided parameters
+
+    Example:
+        .. code-block:: python
+
+            import mlflow
+            from mlflow.genai.judges import make_judge
+            from typing import Literal
+
+            # Create a judge that evaluates response quality using template variables
+            quality_judge = make_judge(
+                name="response_quality",
+                instructions=(
+                    "Evaluate if the response in {{ outputs }} correctly answers "
+                    "the question in {{ inputs }}. The response should be accurate, "
+                    "complete, and professional."
+                ),
+                model="openai:/gpt-4",
+                feedback_value_type=Literal["yes", "no"],
+            )
+
+            # Evaluate a response
+            result = quality_judge(
+                inputs={"question": "What is machine learning?"},
+                outputs="ML is basically when computers learn stuff on their own",
+            )
+
+            # Create a judge that compares against expectations
+            correctness_judge = make_judge(
+                name="correctness",
+                instructions=(
+                    "Compare the {{ outputs }} against the {{ expectations }}. "
+                    "Rate how well they match on a scale of 1-5."
+                ),
+                model="openai:/gpt-4",
+                feedback_value_type=int,
+            )
+
+            # Evaluate with expectations (must be dictionaries)
+            result = correctness_judge(
+                inputs={"question": "What is the capital of France?"},
+                outputs={"answer": "The capital of France is Paris."},
+                expectations={"expected_answer": "Paris"},
+            )
+
+            # Create a judge that evaluates based on trace context
+            trace_judge = make_judge(
+                name="trace_quality",
+                instructions="Evaluate the overall quality of the {{ trace }} execution.",
+                model="openai:/gpt-4",
+                feedback_value_type=Literal["good", "needs_improvement"],
+            )
+
+            # Use with search_traces() - evaluate each trace
+            traces = mlflow.search_traces(locations=["1"], return_type="list")
+            for trace in traces:
+                feedback = trace_judge(trace=trace)
+                print(f"Trace {trace.info.trace_id}: {feedback.value} - {feedback.rationale}")
+
+            # Create a multi-turn judge that detects user frustration
+            frustration_judge = make_judge(
+                name="user_frustration",
+                instructions=(
+                    "Analyze the {{ conversation }} to detect signs of user frustration. "
+                    "Look for indicators such as repeated questions, negative language, "
+                    "or expressions of dissatisfaction."
+                ),
+                model="openai:/gpt-4",
+                feedback_value_type=Literal["frustrated", "not frustrated"],
+            )
+
+            # Evaluate a multi-turn conversation using session traces
+            session = mlflow.search_traces(
+                locations=["1"],
+                filter_string="metadata.`mlflow.trace.session` = 'session_123'",
+                return_type="list",
+            )
+            result = frustration_judge(session=session)
+
+            # Align a judge with human feedback
+            aligned_judge = quality_judge.align(traces)
+
+            # To see detailed optimization output during alignment, enable DEBUG logging:
+            # import logging
+            # logging.getLogger("mlflow.genai.judges.optimizers.memalign").setLevel(logging.DEBUG)
+

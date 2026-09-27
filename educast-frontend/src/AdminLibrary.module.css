@@ -1,0 +1,935 @@
+.shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--color-text);
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--color-text-muted);
+}
+
+.mainPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.1rem 0 0.2rem;
+}
+
+.panelHeader h2 {
+  margin: 0.2rem 0 0;
+  font-size: 1.45rem;
+  color: var(--color-text);
+}
+
+.panelHeader p {
+  margin: 0.35rem 0 0;
+  color: var(--color-text-muted);
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.formCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  box-shadow: var(--shadow);
+}
+
+.formFields {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  color: var(--color-text);
+  font-size: 0.92rem;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+.field input,
+.modalCard input {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.8rem 0.9rem;
+  box-sizing: border-box;
+}
+
+.field input:focus,
+.modalCard input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.14);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.formError {
+  color: var(--color-accent);
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Vertical course list */
+.courseList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.courseRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow);
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.courseRow:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb, 99, 102, 241), 0.1);
+}
+
+.courseRowIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-inset);
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.courseRowBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.courseRowTitle {
+  margin: 0;
+  font-size: 0.97rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.courseRowSub {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.courseRowActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  box-shadow: var(--shadow);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.cardIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface-inset);
+  color: var(--color-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.cardSubtitle {
+  margin: 0.2rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.surfaceInset {
+  background: var(--color-surface-inset);
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.progressMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+}
+
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.secondaryButton,
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.emptyState {
+  border: 1px dashed var(--color-border);
+  padding: 1.4rem;
+  border-radius: 16px;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 11, 13, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 20;
+}
+
+.modalCard {
+  width: min(420px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 14px 40px rgba(26, 26, 26, 0.16);
+}
+
+.modalCard h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+.modalCard p {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.courseDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── PDF panel with toggle ───────────────────────────────── */
+.pdfPanel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pdfToggleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface-inset);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: background 0.15s;
+  border-radius: 0;
+}
+
+.pdfToggleBar:hover {
+  background: rgba(var(--color-accent-rgb), 0.06);
+  color: var(--color-accent);
+}
+
+.pdfToggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pdfToggleChevron {
+  font-size: 1.4rem;
+  line-height: 1;
+  display: inline-block;
+  transform: rotate(90deg);
+  transition: transform 0.22s ease;
+  color: var(--color-text-muted);
+}
+
+.pdfToggleBar:hover .pdfToggleChevron {
+  color: var(--color-accent);
+}
+
+.pdfChevronOpen {
+  transform: rotate(-90deg);
+}
+
+.pdfContainer {
+  width: 100%;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdfNone {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 12px;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────── */
+.tabsContainer {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.tabBtn {
+  padding: 0.6rem 1.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 8px 8px 0 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  margin-bottom: -1px;
+}
+
+.tabBtn:hover {
+  color: var(--color-text);
+  background: var(--color-surface-inset);
+}
+
+.tabBtnActive {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  background: var(--color-surface);
+}
+
+.tabContent {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.emptyTabContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* ── Error banner ─────────────────────────────────────────── */
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(var(--color-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.25);
+  border-radius: 10px;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.errorBanner > span:nth-child(2) {
+  flex: 1;
+}
+
+.errorBanner > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.errorBanner > button:hover {
+  opacity: 1;
+}
+
+@media (max-width: 620px) {
+  .panelHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .formActions > * {
+    width: 100%;
+  }
+
+  .courseRow {
+    flex-wrap: wrap;
+  }
+
+  .courseRowActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pdfContainer {
+    height: 450px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Evaluation Panel — LLM-as-a-Judge results
+   ═══════════════════════════════════════════════════════════════ */
+
+/* CSS variables — score traffic-light colours */
+:root {
+  --eval-color-good: #22c55e;
+  --eval-color-warn: #f59e0b;
+  --eval-color-bad:  #ef4444;
+}
+
+.evalPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem;
+  margin-bottom: 1.25rem;
+  background: var(--color-surface-inset, rgba(255,255,255,0.03));
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  animation: evalFadeIn 0.35s ease both;
+}
+
+@keyframes evalFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Score header row ──────────────────────────────────────── */
+.evalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.evalScoreBlock {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.evalScoreCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.evalScoreLabel {
+  margin: 0 0 0.2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+}
+
+.evalStatusBadge {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+/* ── Meta chips (judge model, generation model, attempt) ───── */
+.evalMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.evalMetaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.evalMetaChip strong {
+  color: var(--color-text);
+}
+
+/* ── Criteria bars ─────────────────────────────────────────── */
+.evalCriteria {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.evalCriterionRow {
+  display: grid;
+  grid-template-columns: 160px 1fr 2.5rem;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.evalCriterionName {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.evalCriterionBar {
+  height: 7px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.evalCriterionFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease, background 0.3s;
+}
+
+.evalCriterionVal {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+/* ── Feedback block ────────────────────────────────────────── */
+.evalFeedback {
+  padding: 0.8rem 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.evalFeedbackLabel {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.evalFeedbackText {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+/* ── Action row ────────────────────────────────────────────── */
+.evalAction {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* "Good ✓" badge when score >= 90 */
+.evalGoodBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--eval-color-good);
+  font-size: 0.88rem;
+  font-weight: 700;
+  animation: evalFadeIn 0.3s ease both;
+}
+
+/* No-evaluation warning banner */
+.noEvalBanner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.noEvalBanner span {
+  font-size: 0.88rem;
+  color: var(--eval-color-warn, #f59e0b);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Re-generate button */
+.regenBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border: 2px solid var(--eval-color-warn);
+  border-radius: 10px;
+  background: rgba(245, 158, 11, 0.08);
+  color: var(--eval-color-warn);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+}
+
+.regenBtn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.16);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+  transform: translateY(-1px);
+}
+
+.regenBtn:disabled,
+.regenBtn.regenBtnLoading {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner animation */
+.regenSpinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Regeneration loading overlay (replaces summary text) ──── */
+.regenOverlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  animation: evalFadeIn 0.25s ease both;
+}
+
+.regenOverlay .regenSpinner {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+  color: var(--eval-color-warn);
+}
+
+.regenOverlay p {
+  margin: 0;
+  max-width: 340px;
+  line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+  .evalCriterionRow {
+    grid-template-columns: 110px 1fr 2rem;
+  }
+
+  .evalHeader {
+    flex-direction: column;
+  }
+
+  .evalScoreCircle {
+    width: 52px;
+    height: 52px;
+    font-size: 1.15rem;
+  }
+}
+
+/* ── Podcast dialogue script ──────────────────────────────────────────────── */
+
+.dialogueContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem 0;
+}
+
+.dialogueTurn {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+  gap: 0.25rem;
+  animation: fadeSlideIn 0.25s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dialogueTurnProfesseur {
+  align-self: flex-start;
+}
+
+.dialogueTurnEtudiant {
+  align-self: flex-end;
+}
+
+.dialogueSpeakerLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0 0.3rem;
+}
+
+.dialogueTurnProfesseur .dialogueSpeakerLabel {
+  color: var(--color-primary, #7c6af7);
+}
+
+.dialogueTurnEtudiant .dialogueSpeakerLabel {
+  color: #10b981;
+  text-align: right;
+}
+
+.dialogueBubble {
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.dialogueTurnProfesseur .dialogueBubble {
+  background: linear-gradient(135deg, rgba(124, 106, 247, 0.15) 0%, rgba(124, 106, 247, 0.08) 100%);
+  border: 1px solid rgba(124, 106, 247, 0.25);
+  border-top-left-radius: 4px;
+  color: var(--color-text);
+}
+
+.dialogueTurnEtudiant .dialogueBubble {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-top-right-radius: 4px;
+  color: var(--color-text);
+}
+
+.podcastGenerateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #7c6af7 0%, #5b4ee0 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 14px rgba(124, 106, 247, 0.35);
+}
+
+.podcastGenerateBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.podcastGenerateBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.podcastGeneratingOverlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.5rem 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.podcastProviderChip {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 620px) {
+  .dialogueTurn {
+    max-width: 95%;
+  }
+}

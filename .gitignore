@@ -1,0 +1,29 @@
+# Environnements Python
+venv/
+**/venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+**/node_modules/
+dist/
+build/
+
+# Variables d'environnement (clés API — JAMAIS sur GitHub)
+.env
+**/.env
+
+# Fichiers uploadés/générés
+uploads/
+**/uploads/
+
+# MLflow
+mlflow.db
+mlruns/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
