@@ -235,3 +235,81 @@ educast-ai-service/
 │   └── rag.py                      # Chat RAG avec consigne French-only
 └── .env                            # Clés API et modèles LLM actifs
 ```
+
+---
+
+## Déploiement Docker
+
+### GPU (local) vs CPU (Docker) — distinction importante
+
+| Contexte | Fichier requirements | Torch | Latence TTS / inférence |
+|---|---|---|---|
+| **Développement local** (GPU NVIDIA) | `requirements.txt` | `torch+cu121` (CUDA) | ~1–3 s |
+| **Docker Compose** (pas de GPU) | `requirements-docker.txt` | `torch` (CPU standard) | ~10–30 s |
+
+Le Dockerfile du `ai-service` utilise `requirements-docker.txt` (CPU uniquement) afin d'éviter une tentative d'installation de wheels CUDA dans un environnement sans GPU.
+
+### Fichiers d'environnement
+
+| Fichier | Usage | Commité sur Git ? |
+|---|---|---|
+| `.env` | Développement local — `localhost` partout | ❌ Non (dans `.gitignore`) |
+| `.env.docker` | Docker Compose — noms de services Docker | ❌ Non (dans `.gitignore`) |
+| `.env.example` | Template vide à documenter | ✅ Oui |
+
+Avant de lancer Docker, copier et remplir les fichiers `.env.docker` :
+
+```bash
+# Backend
+cp educast-backend/.env.example educast-backend/.env.docker
+# AI Service
+cp educast-ai-service/.env.example educast-ai-service/.env.docker
+```
+
+Dans `.env.docker`, remplacer `localhost` par les noms de services Docker :
+
+| Variable | Valeur locale | Valeur Docker |
+|---|---|---|
+| `DATABASE_URL` | `...@localhost:5432/...` | `...@postgres:5432/...` |
+| `MONGODB_URI` | `mongodb://localhost:27017/...` | `mongodb://mongodb:27017/...` |
+| `FASTAPI_URL` | `http://localhost:8000` | `http://ai-service:8000` |
+| `MLFLOW_TRACKING_URI` | `http://localhost:5000` | `http://mlflow:5000` |
+| `NESTJS_BACKEND_URL` | `http://localhost:3000` | `http://backend:3000` |
+| `OLLAMA_BASE_URL` | `http://localhost:11434` | `http://host.docker.internal:11434` |
+
+### Lancement avec Docker Compose
+
+```bash
+# Depuis la racine du dépôt
+docker compose up -d
+
+# Vérifier que tous les services sont démarrés
+docker compose ps
+
+# Consulter les logs d'un service en particulier
+docker compose logs -f backend
+docker compose logs -f ai-service
+```
+
+### Accès aux services une fois démarrés
+
+| Service | URL |
+|---|---|
+| Frontend (React) | http://localhost |
+| Backend API (NestJS) | http://localhost:3000 |
+| AI Service (FastAPI) | http://localhost:8000/docs |
+| MLflow UI | http://localhost:5000 |
+| PostgreSQL | localhost:5432 |
+| MongoDB | localhost:27017 |
+
+### Arrêt et nettoyage
+
+```bash
+# Arrêter les conteneurs (volumes conservés)
+docker compose down
+
+# Arrêter ET supprimer les volumes de données
+docker compose down -v
+```
+
+> **Note Ollama** : Ollama tourne sur la machine hôte, pas dans Docker. Dans `.env.docker`, utiliser `OLLAMA_BASE_URL=http://host.docker.internal:11434` pour que le conteneur `ai-service` puisse l'atteindre.

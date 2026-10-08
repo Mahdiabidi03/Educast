@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, useContext } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -9,7 +9,7 @@ import PdfViewer from './PdfViewer';
 import { PodcastPlayer } from './PodcastPlayer';
 import styles from './AdminLibrary.module.css';
 import quickStyles from './QuickGenerate.module.css';
-import { UserContext } from './App';
+
 import { EvaluationPanel, EvaluationResult, scoreColor } from './EvaluationPanel';
 
 const API_BASE = 'http://localhost:3000';
@@ -87,7 +87,6 @@ const preprocessMarkdown = (text: string | null | undefined): string => {
 };
 
 export const QuickGenerate: React.FC = () => {
-  const currentUser = useContext(UserContext);
   const [myCourses, setMyCourses] = useState<QuickCourse[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<QuickCourse | null>(null);
   const [activeTab, setActiveTab] = useState<'resume' | 'podcast'>('resume');

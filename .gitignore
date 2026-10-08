@@ -13,6 +13,8 @@ build/
 # Variables d'environnement (clés API — JAMAIS sur GitHub)
 .env
 **/.env
+.env.docker
+**/.env.docker
 
 # Fichiers uploadés/générés
 uploads/

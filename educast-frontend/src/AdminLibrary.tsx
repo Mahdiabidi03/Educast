@@ -8,7 +8,7 @@ import 'katex/dist/katex.min.css';
 import PdfViewer from './PdfViewer';
 import { PodcastPlayer } from './PodcastPlayer';
 import styles from './AdminLibrary.module.css';
-import { EvaluationPanel, EvaluationResult, scoreColor, scoreLabel, criterionColor, CRITERIA_LABELS } from './EvaluationPanel';
+import { EvaluationPanel, EvaluationResult } from './EvaluationPanel';
 
 interface Matiere {
   id: string;
@@ -29,16 +29,7 @@ interface CourseEditorState {
 
 type ChannelState = 'idle' | 'loading' | 'done';
 
-interface EvaluationResult {
-  final_score: number;
-  feedback: string;
-  selected_model: string | null;
-  criteria_scores: Record<string, number>;
-  final_evaluation?: Record<string, { score: number; rationale: string }>;
-  attempt_number?: number;
-  generation_model?: string;
-  execution_time_ms?: number;
-}
+
 
 interface AdminCourse {
   id: string;

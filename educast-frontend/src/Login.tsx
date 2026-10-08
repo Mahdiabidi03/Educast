@@ -17,7 +17,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess, theme, onToggleThe
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
-  const [role, setRole] = useState<'etudiant' | 'admin'>('etudiant');
+  const role: 'etudiant' | 'admin' = 'etudiant';
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -176,12 +176,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess, theme, onToggleThe
     }
   };
 
-  const handleQuickSelect = (quickEmail: string, quickPass: string) => {
-    setMode('login');
-    setEmail(quickEmail);
-    setPassword(quickPass);
-    setError(null);
-  };
+
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
